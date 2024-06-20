@@ -1,34 +1,43 @@
-# MultithreadedProxyServer
-Project Theory
+# Multithreaded Proxy Server
 
-Introduction
-Basic Working Flow of the Proxy Server:
+## Introduction
+The Multithreaded Proxy Server is designed to handle multiple client requests simultaneously, providing a practical understanding of how requests from a local computer are processed and sent to a server. It also explores the implementation of multithreading, cache management, and concurrency control.
 
+## Basic Working Flow of the Proxy Server
+- Client sends a request to the proxy server.
+- Proxy server processes the request and forwards it to the destination server.
+- The destination server responds back to the proxy server.
+- Proxy server sends the response back to the client.
 
-How did we implement Multi-threading?
-Used Semaphore instead of Condition Variables and pthread_join() and pthread_exit() function.
-pthread_join() requires us to pass the thread id of the the thread to wait for.
-Semaphore’s sem_wait() and sem_post() doesn’t need any parameter. So it is a better option.
-Motivation/Need of Project
-To Understand →
-The working of requests from our local computer to the server.
-The handling of multiple client requests from various clients.
-Locking procedure for concurrency.
-The concept of cache and its different functions that might be used by browsers.
-Proxy Server do →
-It speeds up the process and reduces the traffic on the server side.
-It can be used to restrict user from accessing specific websites.
-A good proxy will change the IP such that the server wouldn’t know about the client who sent the request.
-Changes can be made in Proxy to encrypt the requests, to stop anyone accessing the request illegally from your client.
-OS Component Used ​
-Threading
-Locks
-Semaphore
-Cache (LRU algorithm is used in it)
-Limitations ​
-If a URL opens multiple clients itself, then our cache will store each client’s response as a separate element in the linked list. So, during retrieval from the cache, only a chunk of response will be send and the website will not open
-Fixed size of cache element, so big websites may not be stored in cache.
-How this project can be extended? ​
-This code can be implemented using multiprocessing that can speed up the process with parallelism.
-We can decide which type of websites should be allowed by extending the code.
-We can implement requests like POST with this code.
+## Multi-threading Implementation
+To implement multithreading, we used Semaphores instead of Condition Variables along with `pthread_join()` and `pthread_exit()` functions:
+- **Semaphores**: Semaphores are preferred over `pthread_join()` as they do not require passing the thread ID to wait for. `sem_wait()` and `sem_post()` functions are used for synchronization.
+- **Threading**: Each client request is handled by a separate thread, improving efficiency and response time.
+
+## Motivation/Need for the Project
+The project aims to:
+- Understand the process of sending requests from a local computer to a server.
+- Handle multiple client requests concurrently.
+- Implement concurrency control through locking mechanisms.
+- Explore caching mechanisms and their use in web browsers.
+
+## Proxy Server Functions
+- **Speed**: Enhances the speed of processing requests and reduces server traffic.
+- **Restriction**: Can restrict user access to specific websites.
+- **Anonymity**: Changes the IP address to keep the client's identity hidden from the server.
+- **Security**: Can be modified to encrypt requests, preventing unauthorized access.
+
+## OS Components Used
+- **Threading**: For handling multiple client requests simultaneously.
+- **Locks**: To manage concurrent access to shared resources.
+- **Semaphore**: For synchronization between threads.
+- **Cache**: Utilizes the LRU (Least Recently Used) algorithm for efficient caching.
+
+## Limitations
+- **Multiple Clients**: If a URL opens multiple clients, each response is stored separately, leading to partial responses during cache retrieval.
+- **Cache Size**: Fixed cache element size limits the storage of large websites.
+
+## Future Enhancements
+- **Multiprocessing**: Implementing multiprocessing to achieve parallelism and speed up processing.
+- **Access Control**: Extending the code to control which types of websites can be accessed.
+- **Extended Requests**: Implementing additional request types like POST.
